@@ -1,0 +1,6 @@
+# Restrict File Access
+
+RewriteEngine On
+
+# Deny access to .txt type files
+RewriteRule \.(txt)$ - [F]
