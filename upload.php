@@ -1,8 +1,19 @@
 <?php
 require 'functions.php';
 
+
+
+session_start();
+if(!$_SESSION['logged_in']){
+    session_destroy();
+    header("Location:index.php");
+}
+
+
+
 function validateFile($file)
 {
+    global $path;
     $file_name = $file['name'];
     $file_size = $file['size'];
     $file_extension = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
@@ -18,7 +29,7 @@ function validateFile($file)
         exit();
     }
     # If file exists in database
-    if (file_exists("uploads/" . $file_name)) {
+    if (file_exists($path . $file_name)) {
         header("Location: index.php?state=exists");
         exit();
     }
@@ -42,7 +53,7 @@ function validateFile($file)
 
 
 if (validateFile($_FILES['file'])) {
-    move_uploaded_file($_FILES['file']['tmp_name'], "uploads/" . $_FILES['file']['name']);
+    move_uploaded_file($_FILES['file']['tmp_name'], $path . $_FILES['file']['name']);
 } else {
     echo "Unknown error has occurred";
 }

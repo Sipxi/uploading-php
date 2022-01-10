@@ -1,5 +1,5 @@
 <?php
-
+$path = "./uploads/";
 function ErrorHandler()
 {
     if (!isset($_GET['state'])) {
@@ -27,12 +27,12 @@ function ErrorHandler()
         }
     }
 }
-
 function allFiles()
 {
-    foreach (glob('./uploads/*') as $file) {
-        echo "File: $file <br>";
-        echo "Content: ";
-        echo file_get_contents($file),"<br>";
+    global $path;
+    $files = array_diff(scandir($path), array('.', '..'));
+    foreach ($files as $file){
+        echo "<p'> $file </p>";
+        echo "<p> Content: ".file_get_contents($path.$file)."</p>";
+        }
     }
-}
